@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#edf5f7">
+  <meta name="description" content="飲まない日を、ゆるく積み上げる。毎日のしらふを気軽に記録するアプリです。">
+  <title>しらふ日和。</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23d7e9ed'/%3E%3Ccircle cx='42' cy='21' r='9' fill='%23f5c86c'/%3E%3Cpath d='M13 43c8-11 17-11 25 0 5-6 10-6 15 0' fill='none' stroke='%232d5962' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="sky-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="しらふ日和。トップへ">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span>しらふ日和。</span>
+    </a>
+    <p>飲まない日を、ゆるく積み上げる。</p>
+  </header>
+
+  <main id="top" class="app-shell">
+    <section class="today-card" aria-labelledby="today-heading">
+      <div class="today-intro">
+        <p class="eyebrow" id="today-date">今日</p>
+        <h1 id="today-heading">今日は、どんな日？</h1>
+        <p class="today-lead">どちらも、いつもの一日です。</p>
+      </div>
+
+      <div class="choice-grid" role="group" aria-label="今日の記録">
+        <button class="day-choice sober-choice" type="button" data-status="sober">
+          <span class="choice-icon" aria-hidden="true">○</span>
+          <span class="choice-copy"><strong>今日はしらふ</strong><small>そっと一日、積み上げる</small></span>
+          <span class="choice-check" aria-hidden="true">✓</span>
+        </button>
+        <button class="day-choice drink-choice" type="button" data-status="drink">
+          <span class="choice-icon" aria-hidden="true">〜</span>
+          <span class="choice-copy"><strong>今日は飲んだ</strong><small>そんな日も、ふつうに記録</small></span>
+          <span class="choice-check" aria-hidden="true">✓</span>
+        </button>
+      </div>
+
+      <div class="recorded-note" id="recorded-note" hidden>
+        <span id="recorded-message"></span>
+        <button type="button" id="toggle-details">メモをのこす</button>
+      </div>
+
+      <form class="details-form" id="today-details" hidden>
+        <div class="drink-fields" id="drink-fields" hidden>
+          <div class="field-group">
+            <label for="drink-type">飲んだもの <span>任意</span></label>
+            <select id="drink-type">
+              <option value="">選ばなくてもOK</option>
+              <option>ビール</option><option>ハイボール</option><option>ワイン</option><option>焼酎</option><option>日本酒</option><option>その他</option>
+            </select>
+          </div>
+          <div class="field-group compact-field">
+            <label for="drink-amount">量 <span>任意</span></label>
+            <div class="amount-input"><input id="drink-amount" type="number" inputmode="decimal" min="0" step="0.5" placeholder="1"><span>杯</span></div>
+          </div>
+        </div>
+        <div class="field-group memo-field">
+          <label for="today-memo">今日のひとこと <span>任意</span></label>
+          <textarea id="today-memo" maxlength="120" rows="3" placeholder="なんとなく飲まずに寝た"></textarea>
+        </div>
+        <button class="save-details" type="submit">この内容で保存</button>
+      </form>
+    </section>
+
+    <section class="summary-grid" aria-label="しらふ日和の記録">
+      <article class="summary-card monthly-card">
+        <div>
+          <p class="summary-label">今月のしらふ日和</p>
+          <p class="big-number"><strong id="month-sober-count">0</strong><span>日</span></p>
+          <p class="summary-sentence" id="month-sentence">今月はまだ、のんびりこれから。</p>
+        </div>
+        <div class="rate-wrap" aria-label="今月のしらふ率">
+          <div class="rate-ring" id="rate-ring"><span id="month-rate">—</span><small>しらふ率</small></div>
+        </div>
+      </article>
+      <article class="summary-card total-card">
+        <div class="stacked-stones" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div>
+          <p class="summary-label">これまでの積み上げ</p>
+          <p class="total-copy">しらふ日和、累計 <strong id="total-sober-count">0日</strong>。</p>
+          <p>飲む日があっても、積み上げた日はそのままです。</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="calendar-section" aria-labelledby="calendar-heading">
+      <div class="section-heading calendar-heading">
+        <div><p class="eyebrow">月の景色</p><h2 id="calendar-heading">カレンダー</h2></div>
+        <div class="month-nav">
+          <button type="button" id="prev-month" aria-label="前の月">←</button>
+          <button type="button" id="calendar-month" class="month-title" aria-label="今月に戻る"></button>
+          <button type="button" id="next-month" aria-label="次の月">→</button>
+        </div>
+      </div>
+      <div class="calendar-legend" aria-label="カレンダーの凡例">
+        <span><i class="legend-sober"></i>しらふ</span><span><i class="legend-drink"></i>飲んだ</span><span><i class="legend-empty"></i>記録なし</span>
+      </div>
+      <div class="weekday-row" aria-hidden="true"><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span><span>日</span></div>
+      <div class="calendar-grid" id="calendar-grid"></div>
+      <p class="calendar-hint">日付をタップすると、記録やメモを見返せます。</p>
+    </section>
+
+    <section class="history-section" aria-labelledby="history-heading">
+      <div class="section-heading"><div><p class="eyebrow">ゆるく振り返る</p><h2 id="history-heading">月ごとの記録</h2></div></div>
+      <div class="history-list" id="history-list"></div>
+    </section>
+
+    <p class="closing-copy">昨日がどんな日でも、今日は新しい一日。</p>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <dialog class="day-dialog" id="day-dialog">
+    <form method="dialog" class="dialog-shell" id="day-form">
+      <div class="dialog-head">
+        <div><p class="eyebrow" id="dialog-year"></p><h2 id="dialog-date"></h2></div>
+        <button class="close-dialog" id="close-dialog" type="button" aria-label="閉じる">×</button>
+      </div>
+      <div class="dialog-choices" role="group" aria-label="この日の記録">
+        <button type="button" data-dialog-status="sober">しらふ</button>
+        <button type="button" data-dialog-status="drink">飲んだ</button>
+      </div>
+      <div class="dialog-drink-fields" id="dialog-drink-fields" hidden>
+        <div class="field-group">
+          <label for="dialog-drink-type">飲んだもの <span>任意</span></label>
+          <select id="dialog-drink-type"><option value="">選ばなくてもOK</option><option>ビール</option><option>ハイボール</option><option>ワイン</option><option>焼酎</option><option>日本酒</option><option>その他</option></select>
+        </div>
+        <div class="field-group compact-field">
+          <label for="dialog-drink-amount">量 <span>任意</span></label>
+          <div class="amount-input"><input id="dialog-drink-amount" type="number" inputmode="decimal" min="0" step="0.5"><span>杯</span></div>
+        </div>
+      </div>
+      <div class="field-group memo-field">
+        <label for="dialog-memo">ひとこと <span>任意</span></label>
+        <textarea id="dialog-memo" maxlength="120" rows="3" placeholder="その日のことを、少しだけ"></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="delete-record" id="delete-record">記録を消す</button>
+        <button type="submit" class="save-details" value="default">保存する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
